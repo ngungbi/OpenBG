@@ -1,0 +1,229 @@
+   1               		.file	"serial.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	__vector_20
+  18               	__vector_20:
+  19               	.LFB2:
+  20               	.LM1:
+  21 0000 1F92      		push __zero_reg__
+  22 0002 0F92      		push r0
+  23 0004 0FB6      		in r0,__SREG__
+  24 0006 0F92      		push r0
+  25 0008 1124      		clr __zero_reg__
+  26 000a 8F93      		push r24
+  27 000c 9F93      		push r25
+  28 000e EF93      		push r30
+  29 0010 FF93      		push r31
+  30               	/* prologue: Signal */
+  31               	/* frame size = 0 */
+  32               	.LM2:
+  33 0012 9091 0000 		lds r25,bufferSendIdx
+  34 0016 8091 0000 		lds r24,bufferIdx
+  35 001a 8917      		cp r24,r25
+  36 001c 01F0      		breq .L4
+  37               	.L5:
+  38               	.LM3:
+  39 001e 8091 C000 		lds r24,192
+  40 0022 85FF      		sbrs r24,5
+  41 0024 00C0      		rjmp .L5
+  42               	.LM4:
+  43 0026 E92F      		mov r30,r25
+  44 0028 F0E0      		ldi r31,lo8(0)
+  45 002a E050      		subi r30,lo8(-(serialBuffer))
+  46 002c F040      		sbci r31,hi8(-(serialBuffer))
+  47 002e 8081      		ld r24,Z
+  48 0030 8093 C600 		sts 198,r24
+  49               	.LM5:
+  50 0034 1082      		st Z,__zero_reg__
+  51               	.LM6:
+  52 0036 9F5F      		subi r25,lo8(-(1))
+  53 0038 9093 0000 		sts bufferSendIdx,r25
+  54               	.L4:
+  55               	/* epilogue start */
+  56               	.LM7:
+  57 003c FF91      		pop r31
+  58 003e EF91      		pop r30
+  59 0040 9F91      		pop r25
+  60 0042 8F91      		pop r24
+  61 0044 0F90      		pop r0
+  62 0046 0FBE      		out __SREG__,r0
+  63 0048 0F90      		pop r0
+  64 004a 1F90      		pop __zero_reg__
+  65 004c 1895      		reti
+  66               	.LFE2:
+  68               	.global	SerialWriteBuffer
+  70               	SerialWriteBuffer:
+  71               	.LFB3:
+  72               	.LM8:
+  73               	.LVL0:
+  74               	/* prologue: function */
+  75               	/* frame size = 0 */
+  76 004e AC01      		movw r20,r24
+  77               	.LM9:
+  78 0050 30E0      		ldi r19,lo8(0)
+  79               	.LVL1:
+  80 0052 00C0      		rjmp .L8
+  81               	.LVL2:
+  82               	.L11:
+  83               	.LM10:
+  84 0054 8091 C000 		lds r24,192
+  85 0058 85FF      		sbrs r24,5
+  86 005a 00C0      		rjmp .L9
+  87               	.LM11:
+  88 005c 2093 C600 		sts 198,r18
+  89 0060 00C0      		rjmp .L10
+  90               	.L9:
+  91               	.LM12:
+  92 0062 8091 0000 		lds r24,bufferIdx
+  93 0066 E82F      		mov r30,r24
+  94 0068 F0E0      		ldi r31,lo8(0)
+  95 006a E050      		subi r30,lo8(-(serialBuffer))
+  96 006c F040      		sbci r31,hi8(-(serialBuffer))
+  97 006e 2083      		st Z,r18
+  98               	.LM13:
+  99 0070 8F5F      		subi r24,lo8(-(1))
+ 100 0072 8093 0000 		sts bufferIdx,r24
+ 101               	.L10:
+ 102               	.LM14:
+ 103 0076 3F5F      		subi r19,lo8(-(1))
+ 104               	.LVL3:
+ 105               	.L8:
+ 106               	.LM15:
+ 107 0078 FA01      		movw r30,r20
+ 108 007a E30F      		add r30,r19
+ 109 007c F11D      		adc r31,__zero_reg__
+ 110 007e 2081      		ld r18,Z
+ 111 0080 2223      		tst r18
+ 112 0082 01F4      		brne .L11
+ 113               	/* epilogue start */
+ 114               	.LM16:
+ 115 0084 0895      		ret
+ 116               	.LFE3:
+ 118               	.global	SerialInit
+ 120               	SerialInit:
+ 121               	.LFB4:
+ 122               	.LM17:
+ 123               	.LVL4:
+ 124               	/* prologue: function */
+ 125               	/* frame size = 0 */
+ 126 0086 9B01      		movw r18,r22
+ 127 0088 AC01      		movw r20,r24
+ 128               	.LM18:
+ 129 008a 82E0      		ldi r24,lo8(2)
+ 130 008c 8093 C000 		sts 192,r24
+ 131               	.LM19:
+ 132 0090 88E9      		ldi r24,lo8(-104)
+ 133 0092 8093 C100 		sts 193,r24
+ 134               	.LM20:
+ 135 0096 8091 C100 		lds r24,193
+ 136 009a 8093 C100 		sts 193,r24
+ 137               	.LM21:
+ 138 009e 86E8      		ldi r24,lo8(-122)
+ 139 00a0 8093 C200 		sts 194,r24
+ 140               	.LM22:
+ 141 00a4 60E4      		ldi r22,lo8(1000000)
+ 142 00a6 72E4      		ldi r23,hi8(1000000)
+ 143 00a8 8FE0      		ldi r24,hlo8(1000000)
+ 144 00aa 90E0      		ldi r25,hhi8(1000000)
+ 145               	.LVL5:
+ 146 00ac 0E94 0000 		call __udivmodsi4
+ 147               	.LVL6:
+ 148 00b0 2150      		subi r18,lo8(-(-1))
+ 149 00b2 3040      		sbci r19,hi8(-(-1))
+ 150               	.LVL7:
+ 151               	.LM23:
+ 152 00b4 2093 C400 		sts 196,r18
+ 153               	.LM24:
+ 154 00b8 3093 C500 		sts 197,r19
+ 155               	.LVL8:
+ 156 00bc 8FEF      		ldi r24,lo8(-1)
+ 157               	.LVL9:
+ 158               	.L14:
+ 159               	.LM25:
+ 160 00be 8150      		subi r24,lo8(-(-1))
+ 161               	.LM26:
+ 162 00c0 E82F      		mov r30,r24
+ 163 00c2 F0E0      		ldi r31,lo8(0)
+ 164               	.LVL10:
+ 165 00c4 E050      		subi r30,lo8(-(serialBuffer))
+ 166 00c6 F040      		sbci r31,hi8(-(serialBuffer))
+ 167               	.LVL11:
+ 168 00c8 1082      		st Z,__zero_reg__
+ 169               	.LM27:
+ 170 00ca 8823      		tst r24
+ 171 00cc 01F4      		brne .L14
+ 172               	.LVL12:
+ 173               	/* epilogue start */
+ 174               	.LM28:
+ 175 00ce 0895      		ret
+ 176               	.LFE4:
+ 178               	.global	SerialWrite
+ 180               	SerialWrite:
+ 181               	.LFB5:
+ 182               	.LM29:
+ 183               	.LVL13:
+ 184               	/* prologue: function */
+ 185               	/* frame size = 0 */
+ 186 00d0 AC01      		movw r20,r24
+ 187               	.LM30:
+ 188 00d2 20E0      		ldi r18,lo8(0)
+ 189               	.LVL14:
+ 190 00d4 00C0      		rjmp .L18
+ 191               	.LVL15:
+ 192               	.L21:
+ 193               	.LM31:
+ 194 00d6 8091 C000 		lds r24,192
+ 195 00da 85FF      		sbrs r24,5
+ 196 00dc 00C0      		rjmp .L21
+ 197               	.LM32:
+ 198 00de E093 C600 		sts 198,r30
+ 199               	.LM33:
+ 200 00e2 2F5F      		subi r18,lo8(-(1))
+ 201               	.LVL16:
+ 202               	.L18:
+ 203               	.LM34:
+ 204 00e4 FA01      		movw r30,r20
+ 205 00e6 E20F      		add r30,r18
+ 206 00e8 F11D      		adc r31,__zero_reg__
+ 207 00ea E081      		ld r30,Z
+ 208 00ec EE23      		tst r30
+ 209 00ee 01F4      		brne .L21
+ 210               	/* epilogue start */
+ 211               	.LM35:
+ 212 00f0 0895      		ret
+ 213               	.LFE5:
+ 215               	.global	bufferIdx
+ 216               	.global	bufferIdx
+ 217               		.section .bss
+ 220               	bufferIdx:
+ 221 0000 00        		.skip 1,0
+ 222               	.global	bufferSendIdx
+ 223               	.global	bufferSendIdx
+ 226               	bufferSendIdx:
+ 227 0001 00        		.skip 1,0
+ 228               		.comm serialBuffer,256,1
+ 277               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 serial.c
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:2      *ABS*:0000003f __SREG__
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:3      *ABS*:0000003e __SP_H__
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:4      *ABS*:0000003d __SP_L__
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:5      *ABS*:00000034 __CCP__
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:18     .text:00000000 __vector_20
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:226    .bss:00000001 bufferSendIdx
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:220    .bss:00000000 bufferIdx
+                            *COM*:00000100 serialBuffer
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:70     .text:0000004e SerialWriteBuffer
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:120    .text:00000086 SerialInit
+C:\Users\user\AppData\Local\Temp/ccwJpjiu.s:180    .text:000000d0 SerialWrite
+
+UNDEFINED SYMBOLS
+__udivmodsi4
+__do_clear_bss

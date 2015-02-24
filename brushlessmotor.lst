@@ -1,0 +1,296 @@
+   1               		.file	"brushlessmotor.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	initTimer
+  18               	initTimer:
+  19               	.LFB4:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 91EA      		ldi r25,lo8(-95)
+  25 0002 94BD      		out 68-32,r25
+  26               	.LM3:
+  27 0004 81E0      		ldi r24,lo8(1)
+  28 0006 85BD      		out 69-32,r24
+  29               	.LM4:
+  30 0008 9093 8000 		sts 128,r25
+  31               	.LM5:
+  32 000c 8093 8100 		sts 129,r24
+  33               	.LM6:
+  34 0010 9093 B000 		sts 176,r25
+  35               	.LM7:
+  36 0014 8093 B100 		sts 177,r24
+  37               	.LM8:
+  38 0018 8093 6E00 		sts 110,r24
+  39               	.LM9:
+  40 001c 1092 6F00 		sts 111,__zero_reg__
+  41               	.LM10:
+  42 0020 1092 7000 		sts 112,__zero_reg__
+  43               	.LM11:
+  44 0024 1092 B300 		sts 179,__zero_reg__
+  45               	.LM12:
+  46 0028 1092 B400 		sts 180,__zero_reg__
+  47               	.LM13:
+  48 002c 1092 8900 		sts (136)+1,__zero_reg__
+  49 0030 1092 8800 		sts 136,__zero_reg__
+  50               	.LM14:
+  51 0034 1092 8B00 		sts (138)+1,__zero_reg__
+  52 0038 1092 8A00 		sts 138,__zero_reg__
+  53               	.LM15:
+  54 003c 17BC      		out 71-32,__zero_reg__
+  55               	.LM16:
+  56 003e 18BC      		out 72-32,__zero_reg__
+  57               	.LM17:
+  58 0040 84B1      		in r24,36-32
+  59 0042 8E60      		ori r24,lo8(14)
+  60 0044 84B9      		out 36-32,r24
+  61               	.LM18:
+  62 0046 8AB1      		in r24,42-32
+  63 0048 8866      		ori r24,lo8(104)
+  64 004a 8AB9      		out 42-32,r24
+  65               	/* epilogue start */
+  66               	.LM19:
+  67 004c 0895      		ret
+  68               	.LFE4:
+  70               	.global	setMotorPos
+  72               	setMotorPos:
+  73               	.LFB7:
+  74               	.LM20:
+  75               	.LVL0:
+  76               	/* prologue: function */
+  77               	/* frame size = 0 */
+  78               	.LM21:
+  79 004e A0E0      		ldi r26,lo8(rollMotorSinArray)
+  80 0050 B0E0      		ldi r27,hi8(rollMotorSinArray)
+  81 0052 FD01      		movw r30,r26
+  82 0054 E80F      		add r30,r24
+  83 0056 F11D      		adc r31,__zero_reg__
+  84 0058 9081      		ld r25,Z
+  85 005a 9093 0000 		sts motorPWM+3,r25
+  86               	.LM22:
+  87 005e 982F      		mov r25,r24
+  88 0060 9B5A      		subi r25,lo8(-(85))
+  89               	.LVL1:
+  90               	.LM23:
+  91 0062 FD01      		movw r30,r26
+  92 0064 E90F      		add r30,r25
+  93 0066 F11D      		adc r31,__zero_reg__
+  94 0068 9081      		ld r25,Z
+  95               	.LVL2:
+  96 006a 9093 0000 		sts motorPWM+4,r25
+  97               	.LM24:
+  98 006e 8655      		subi r24,lo8(-(-86))
+  99               	.LVL3:
+ 100 0070 A80F      		add r26,r24
+ 101 0072 B11D      		adc r27,__zero_reg__
+ 102 0074 8C91      		ld r24,X
+ 103               	.LVL4:
+ 104 0076 8093 0000 		sts motorPWM+5,r24
+ 105               	.LM25:
+ 106 007a A0E0      		ldi r26,lo8(pitchMotorSinArray)
+ 107 007c B0E0      		ldi r27,hi8(pitchMotorSinArray)
+ 108 007e FD01      		movw r30,r26
+ 109 0080 E60F      		add r30,r22
+ 110 0082 F11D      		adc r31,__zero_reg__
+ 111 0084 8081      		ld r24,Z
+ 112 0086 8093 0000 		sts motorPWM,r24
+ 113               	.LM26:
+ 114 008a 862F      		mov r24,r22
+ 115 008c 8B5A      		subi r24,lo8(-(85))
+ 116               	.LVL5:
+ 117               	.LM27:
+ 118 008e FD01      		movw r30,r26
+ 119 0090 E80F      		add r30,r24
+ 120 0092 F11D      		adc r31,__zero_reg__
+ 121 0094 8081      		ld r24,Z
+ 122               	.LVL6:
+ 123 0096 8093 0000 		sts motorPWM+1,r24
+ 124               	.LM28:
+ 125 009a 6655      		subi r22,lo8(-(-86))
+ 126               	.LVL7:
+ 127 009c A60F      		add r26,r22
+ 128 009e B11D      		adc r27,__zero_reg__
+ 129 00a0 8C91      		ld r24,X
+ 130 00a2 8093 0000 		sts motorPWM+2,r24
+ 131               	/* epilogue start */
+ 132               	.LM29:
+ 133 00a6 0895      		ret
+ 134               	.LFE7:
+ 136               	.global	updateMotor
+ 138               	updateMotor:
+ 139               	.LFB8:
+ 140               	.LM30:
+ 141               	/* prologue: function */
+ 142               	/* frame size = 0 */
+ 143               	.LM31:
+ 144 00a8 8091 0000 		lds r24,motorPWM
+ 145 00ac 8093 B400 		sts 180,r24
+ 146               	.LM32:
+ 147 00b0 8091 0000 		lds r24,motorPWM+1
+ 148 00b4 88BD      		out 72-32,r24
+ 149               	.LM33:
+ 150 00b6 8091 0000 		lds r24,motorPWM+2
+ 151 00ba 87BD      		out 71-32,r24
+ 152               	.LM34:
+ 153 00bc 8091 0000 		lds r24,motorPWM+3
+ 154 00c0 8093 B300 		sts 179,r24
+ 155               	.LM35:
+ 156 00c4 8091 0000 		lds r24,motorPWM+4
+ 157 00c8 9927      		clr r25
+ 158 00ca 87FD      		sbrc r24,7
+ 159 00cc 9095      		com r25
+ 160 00ce 9093 8900 		sts (136)+1,r25
+ 161 00d2 8093 8800 		sts 136,r24
+ 162               	.LM36:
+ 163 00d6 8091 0000 		lds r24,motorPWM+5
+ 164 00da 9927      		clr r25
+ 165 00dc 87FD      		sbrc r24,7
+ 166 00de 9095      		com r25
+ 167 00e0 9093 8B00 		sts (138)+1,r25
+ 168 00e4 8093 8A00 		sts 138,r24
+ 169               	/* epilogue start */
+ 170               	.LM37:
+ 171 00e8 0895      		ret
+ 172               	.LFE8:
+ 174               	.global	initSinArray
+ 176               	initSinArray:
+ 177               	.LFB5:
+ 178               	.LM38:
+ 179 00ea EF92      		push r14
+ 180 00ec FF92      		push r15
+ 181 00ee 0F93      		push r16
+ 182 00f0 1F93      		push r17
+ 183 00f2 CF93      		push r28
+ 184 00f4 DF93      		push r29
+ 185               	/* prologue: function */
+ 186               	/* frame size = 0 */
+ 187               	.LM39:
+ 188 00f6 C0E0      		ldi r28,lo8(0)
+ 189 00f8 D0E0      		ldi r29,hi8(0)
+ 190               	.LVL8:
+ 191               	.LBB2:
+ 192               	.LBB3:
+ 193               	.LM40:
+ 194 00fa 56E9      		ldi r21,lo8(150)
+ 195 00fc E52E      		mov r14,r21
+ 196 00fe F12C      		mov r15,__zero_reg__
+ 197               	.LM41:
+ 198 0100 04E6      		ldi r16,lo8(100)
+ 199 0102 10E0      		ldi r17,hi8(100)
+ 200               	.L8:
+ 201               	.LM42:
+ 202 0104 BE01      		movw r22,r28
+ 203 0106 80E0      		ldi r24,lo8(0)
+ 204 0108 90E0      		ldi r25,hi8(0)
+ 205               	.LVL9:
+ 206 010a 0E94 0000 		call __floatunsisf
+ 207               	.LVL10:
+ 208 010e 9B01      		movw r18,r22
+ 209 0110 AC01      		movw r20,r24
+ 210 0112 0E94 0000 		call __addsf3
+ 211 0116 20E0      		ldi r18,lo8(0x3b800000)
+ 212 0118 30E0      		ldi r19,hi8(0x3b800000)
+ 213 011a 40E8      		ldi r20,hlo8(0x3b800000)
+ 214 011c 5BE3      		ldi r21,hhi8(0x3b800000)
+ 215 011e 0E94 0000 		call __mulsf3
+ 216 0122 2BED      		ldi r18,lo8(0x40490fdb)
+ 217 0124 3FE0      		ldi r19,hi8(0x40490fdb)
+ 218 0126 49E4      		ldi r20,hlo8(0x40490fdb)
+ 219 0128 50E4      		ldi r21,hhi8(0x40490fdb)
+ 220 012a 0E94 0000 		call __mulsf3
+ 221 012e 0E94 0000 		call sin
+ 222 0132 20E0      		ldi r18,lo8(0x42fe0000)
+ 223 0134 30E0      		ldi r19,hi8(0x42fe0000)
+ 224 0136 4EEF      		ldi r20,hlo8(0x42fe0000)
+ 225 0138 52E4      		ldi r21,hhi8(0x42fe0000)
+ 226 013a 0E94 0000 		call __mulsf3
+ 227 013e 0E94 0000 		call __fixsfsi
+ 228               	.LM43:
+ 229 0142 6158      		subi r22,lo8(-(127))
+ 230 0144 7F4F      		sbci r23,hi8(-(127))
+ 231               	.LVL11:
+ 232               	.LM44:
+ 233 0146 FE01      		movw r30,r28
+ 234 0148 E050      		subi r30,lo8(-(rollMotorSinArray))
+ 235 014a F040      		sbci r31,hi8(-(rollMotorSinArray))
+ 236 014c 6E9D      		mul r22,r14
+ 237 014e 9001      		movw r18,r0
+ 238 0150 6F9D      		mul r22,r15
+ 239 0152 300D      		add r19,r0
+ 240 0154 7E9D      		mul r23,r14
+ 241 0156 300D      		add r19,r0
+ 242 0158 1124      		clr r1
+ 243 015a 232F      		mov r18,r19
+ 244 015c 330F      		lsl r19
+ 245 015e 330B      		sbc r19,r19
+ 246 0160 2083      		st Z,r18
+ 247               	.LM45:
+ 248 0162 FE01      		movw r30,r28
+ 249 0164 E050      		subi r30,lo8(-(pitchMotorSinArray))
+ 250 0166 F040      		sbci r31,hi8(-(pitchMotorSinArray))
+ 251 0168 609F      		mul r22,r16
+ 252 016a C001      		movw r24,r0
+ 253 016c 619F      		mul r22,r17
+ 254 016e 900D      		add r25,r0
+ 255 0170 709F      		mul r23,r16
+ 256 0172 900D      		add r25,r0
+ 257 0174 1124      		clr r1
+ 258 0176 892F      		mov r24,r25
+ 259 0178 990F      		lsl r25
+ 260 017a 990B      		sbc r25,r25
+ 261 017c 8083      		st Z,r24
+ 262               	.LBE3:
+ 263               	.LM46:
+ 264 017e 2196      		adiw r28,1
+ 265 0180 81E0      		ldi r24,hi8(256)
+ 266 0182 C030      		cpi r28,lo8(256)
+ 267 0184 D807      		cpc r29,r24
+ 268 0186 01F0      		breq .+2
+ 269 0188 00C0      		rjmp .L8
+ 270               	/* epilogue start */
+ 271               	.LBE2:
+ 272               	.LM47:
+ 273 018a DF91      		pop r29
+ 274 018c CF91      		pop r28
+ 275               	.LVL12:
+ 276 018e 1F91      		pop r17
+ 277 0190 0F91      		pop r16
+ 278 0192 FF90      		pop r15
+ 279 0194 EF90      		pop r14
+ 280 0196 0895      		ret
+ 281               	.LFE5:
+ 283               		.comm rollMotorSinArray,256,1
+ 284               		.comm pitchMotorSinArray,256,1
+ 285               		.comm pwmSinArray,256,1
+ 286               		.comm motorPWM,6,1
+ 335               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 brushlessmotor.c
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:2      *ABS*:0000003f __SREG__
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:3      *ABS*:0000003e __SP_H__
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:4      *ABS*:0000003d __SP_L__
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:5      *ABS*:00000034 __CCP__
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:18     .text:00000000 initTimer
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:72     .text:0000004e setMotorPos
+                            *COM*:00000100 rollMotorSinArray
+                            *COM*:00000006 motorPWM
+                            *COM*:00000100 pitchMotorSinArray
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:138    .text:000000a8 updateMotor
+C:\Users\user\AppData\Local\Temp/ccW1uzur.s:176    .text:000000ea initSinArray
+                            *COM*:00000100 pwmSinArray
+
+UNDEFINED SYMBOLS
+__floatunsisf
+__addsf3
+__mulsf3
+sin
+__fixsfsi
+__do_clear_bss

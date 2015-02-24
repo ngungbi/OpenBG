@@ -1,0 +1,327 @@
+   1               		.file	"mpu6050.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	mpu6050_readGyro
+  18               	mpu6050_readGyro:
+  19               	.LFB5:
+  20               	.LM1:
+  21               	.LVL0:
+  22 0000 CF92      		push r12
+  23 0002 DF92      		push r13
+  24 0004 EF92      		push r14
+  25 0006 FF92      		push r15
+  26 0008 1F93      		push r17
+  27 000a DF93      		push r29
+  28 000c CF93      		push r28
+  29 000e 00D0      		rcall .
+  30 0010 00D0      		rcall .
+  31 0012 00D0      		rcall .
+  32 0014 CDB7      		in r28,__SP_L__
+  33 0016 DEB7      		in r29,__SP_H__
+  34               	/* prologue: function */
+  35               	/* frame size = 6 */
+  36 0018 6C01      		movw r12,r24
+  37               	.LM2:
+  38 001a 80ED      		ldi r24,lo8(-48)
+  39               	.LVL1:
+  40 001c 0E94 0000 		call i2c_start
+  41               	.LM3:
+  42 0020 83E4      		ldi r24,lo8(67)
+  43 0022 0E94 0000 		call i2c_write
+  44               	.LM4:
+  45 0026 81ED      		ldi r24,lo8(-47)
+  46 0028 0E94 0000 		call i2c_start
+  47 002c 7E01      		movw r14,r28
+  48               	.LVL2:
+  49 002e 0894      		sec
+  50 0030 E11C      		adc r14,__zero_reg__
+  51 0032 F11C      		adc r15,__zero_reg__
+  52 0034 16E0      		ldi r17,lo8(6)
+  53               	.LVL3:
+  54               	.L2:
+  55               	.LM5:
+  56 0036 1150      		subi r17,lo8(-(-1))
+  57               	.LM6:
+  58 0038 812F      		mov r24,r17
+  59 003a 0E94 0000 		call i2c_read
+  60 003e F701      		movw r30,r14
+  61 0040 8193      		st Z+,r24
+  62 0042 7F01      		movw r14,r30
+  63               	.LM7:
+  64 0044 1123      		tst r17
+  65 0046 01F4      		brne .L2
+  66               	.LM8:
+  67 0048 9981      		ldd r25,Y+1
+  68 004a 80E0      		ldi r24,lo8(0)
+  69 004c 2A81      		ldd r18,Y+2
+  70 004e 30E0      		ldi r19,lo8(0)
+  71 0050 822B      		or r24,r18
+  72 0052 932B      		or r25,r19
+  73 0054 F601      		movw r30,r12
+  74 0056 9183      		std Z+1,r25
+  75 0058 8083      		st Z,r24
+  76               	.LM9:
+  77 005a 9B81      		ldd r25,Y+3
+  78 005c 80E0      		ldi r24,lo8(0)
+  79 005e 2C81      		ldd r18,Y+4
+  80 0060 30E0      		ldi r19,lo8(0)
+  81 0062 822B      		or r24,r18
+  82 0064 932B      		or r25,r19
+  83 0066 9095      		com r25
+  84 0068 8195      		neg r24
+  85 006a 9F4F      		sbci r25,lo8(-1)
+  86 006c 9383      		std Z+3,r25
+  87 006e 8283      		std Z+2,r24
+  88               	.LM10:
+  89 0070 9D81      		ldd r25,Y+5
+  90 0072 80E0      		ldi r24,lo8(0)
+  91 0074 2E81      		ldd r18,Y+6
+  92 0076 30E0      		ldi r19,lo8(0)
+  93 0078 822B      		or r24,r18
+  94 007a 932B      		or r25,r19
+  95 007c 9095      		com r25
+  96 007e 8195      		neg r24
+  97 0080 9F4F      		sbci r25,lo8(-1)
+  98 0082 9583      		std Z+5,r25
+  99 0084 8483      		std Z+4,r24
+ 100               	/* epilogue start */
+ 101               	.LM11:
+ 102 0086 2696      		adiw r28,6
+ 103 0088 0FB6      		in __tmp_reg__,__SREG__
+ 104 008a F894      		cli
+ 105 008c DEBF      		out __SP_H__,r29
+ 106 008e 0FBE      		out __SREG__,__tmp_reg__
+ 107 0090 CDBF      		out __SP_L__,r28
+ 108 0092 CF91      		pop r28
+ 109 0094 DF91      		pop r29
+ 110 0096 1F91      		pop r17
+ 111               	.LVL4:
+ 112 0098 FF90      		pop r15
+ 113 009a EF90      		pop r14
+ 114               	.LVL5:
+ 115 009c DF90      		pop r13
+ 116 009e CF90      		pop r12
+ 117               	.LVL6:
+ 118 00a0 0895      		ret
+ 119               	.LFE5:
+ 121               	.global	mpu6050_readAccel
+ 123               	mpu6050_readAccel:
+ 124               	.LFB4:
+ 125               	.LM12:
+ 126               	.LVL7:
+ 127 00a2 CF92      		push r12
+ 128 00a4 DF92      		push r13
+ 129 00a6 EF92      		push r14
+ 130 00a8 FF92      		push r15
+ 131 00aa 1F93      		push r17
+ 132 00ac DF93      		push r29
+ 133 00ae CF93      		push r28
+ 134 00b0 00D0      		rcall .
+ 135 00b2 00D0      		rcall .
+ 136 00b4 00D0      		rcall .
+ 137 00b6 CDB7      		in r28,__SP_L__
+ 138 00b8 DEB7      		in r29,__SP_H__
+ 139               	/* prologue: function */
+ 140               	/* frame size = 6 */
+ 141 00ba 6C01      		movw r12,r24
+ 142               	.LM13:
+ 143 00bc 80ED      		ldi r24,lo8(-48)
+ 144               	.LVL8:
+ 145 00be 0E94 0000 		call i2c_start
+ 146               	.LM14:
+ 147 00c2 8BE3      		ldi r24,lo8(59)
+ 148 00c4 0E94 0000 		call i2c_write
+ 149               	.LM15:
+ 150 00c8 81ED      		ldi r24,lo8(-47)
+ 151 00ca 0E94 0000 		call i2c_start
+ 152 00ce 7E01      		movw r14,r28
+ 153               	.LVL9:
+ 154 00d0 0894      		sec
+ 155 00d2 E11C      		adc r14,__zero_reg__
+ 156 00d4 F11C      		adc r15,__zero_reg__
+ 157 00d6 16E0      		ldi r17,lo8(6)
+ 158               	.LVL10:
+ 159               	.L6:
+ 160               	.LM16:
+ 161 00d8 1150      		subi r17,lo8(-(-1))
+ 162               	.LM17:
+ 163 00da 812F      		mov r24,r17
+ 164 00dc 0E94 0000 		call i2c_read
+ 165 00e0 F701      		movw r30,r14
+ 166 00e2 8193      		st Z+,r24
+ 167 00e4 7F01      		movw r14,r30
+ 168               	.LM18:
+ 169 00e6 1123      		tst r17
+ 170 00e8 01F4      		brne .L6
+ 171               	.LM19:
+ 172 00ea 9981      		ldd r25,Y+1
+ 173 00ec 80E0      		ldi r24,lo8(0)
+ 174 00ee 2A81      		ldd r18,Y+2
+ 175 00f0 30E0      		ldi r19,lo8(0)
+ 176 00f2 822B      		or r24,r18
+ 177 00f4 932B      		or r25,r19
+ 178 00f6 F601      		movw r30,r12
+ 179 00f8 9183      		std Z+1,r25
+ 180 00fa 8083      		st Z,r24
+ 181               	.LM20:
+ 182 00fc 9B81      		ldd r25,Y+3
+ 183 00fe 80E0      		ldi r24,lo8(0)
+ 184 0100 2C81      		ldd r18,Y+4
+ 185 0102 30E0      		ldi r19,lo8(0)
+ 186 0104 822B      		or r24,r18
+ 187 0106 932B      		or r25,r19
+ 188 0108 9095      		com r25
+ 189 010a 8195      		neg r24
+ 190 010c 9F4F      		sbci r25,lo8(-1)
+ 191 010e 9383      		std Z+3,r25
+ 192 0110 8283      		std Z+2,r24
+ 193               	.LM21:
+ 194 0112 9D81      		ldd r25,Y+5
+ 195 0114 80E0      		ldi r24,lo8(0)
+ 196 0116 2E81      		ldd r18,Y+6
+ 197 0118 30E0      		ldi r19,lo8(0)
+ 198 011a 822B      		or r24,r18
+ 199 011c 932B      		or r25,r19
+ 200 011e 9095      		com r25
+ 201 0120 8195      		neg r24
+ 202 0122 9F4F      		sbci r25,lo8(-1)
+ 203 0124 9583      		std Z+5,r25
+ 204 0126 8483      		std Z+4,r24
+ 205               	/* epilogue start */
+ 206               	.LM22:
+ 207 0128 2696      		adiw r28,6
+ 208 012a 0FB6      		in __tmp_reg__,__SREG__
+ 209 012c F894      		cli
+ 210 012e DEBF      		out __SP_H__,r29
+ 211 0130 0FBE      		out __SREG__,__tmp_reg__
+ 212 0132 CDBF      		out __SP_L__,r28
+ 213 0134 CF91      		pop r28
+ 214 0136 DF91      		pop r29
+ 215 0138 1F91      		pop r17
+ 216               	.LVL11:
+ 217 013a FF90      		pop r15
+ 218 013c EF90      		pop r14
+ 219               	.LVL12:
+ 220 013e DF90      		pop r13
+ 221 0140 CF90      		pop r12
+ 222               	.LVL13:
+ 223 0142 0895      		ret
+ 224               	.LFE4:
+ 226               	.global	mpu6050_test
+ 228               	mpu6050_test:
+ 229               	.LFB3:
+ 230               	.LM23:
+ 231               	/* prologue: function */
+ 232               	/* frame size = 0 */
+ 233               	.LM24:
+ 234 0144 88E6      		ldi r24,lo8(104)
+ 235 0146 65E7      		ldi r22,lo8(117)
+ 236 0148 0E94 0000 		call i2c_readReg
+ 237 014c 90E0      		ldi r25,lo8(0)
+ 238 014e 8836      		cpi r24,lo8(104)
+ 239 0150 01F4      		brne .L10
+ 240 0152 91E0      		ldi r25,lo8(1)
+ 241               	.L10:
+ 242               	.LM25:
+ 243 0154 892F      		mov r24,r25
+ 244               	/* epilogue start */
+ 245 0156 0895      		ret
+ 246               	.LFE3:
+ 248               	.global	mpu6050_init
+ 250               	mpu6050_init:
+ 251               	.LFB2:
+ 252               	.LM26:
+ 253 0158 DF93      		push r29
+ 254 015a CF93      		push r28
+ 255 015c 00D0      		rcall .
+ 256 015e CDB7      		in r28,__SP_L__
+ 257 0160 DEB7      		in r29,__SP_H__
+ 258               	/* prologue: function */
+ 259               	/* frame size = 2 */
+ 260               	.LM27:
+ 261 0162 88E6      		ldi r24,lo8(104)
+ 262 0164 6BE6      		ldi r22,lo8(107)
+ 263 0166 40E8      		ldi r20,lo8(-128)
+ 264 0168 0E94 0000 		call i2c_writeReg
+ 265               	.LM28:
+ 266 016c 80E8      		ldi r24,lo8(16000)
+ 267 016e 9EE3      		ldi r25,hi8(16000)
+ 268 0170 9A83      		std Y+2,r25
+ 269 0172 8983      		std Y+1,r24
+ 270               	.LVL14:
+ 271               	.L13:
+ 272               	.LM29:
+ 273 0174 8981      		ldd r24,Y+1
+ 274 0176 9A81      		ldd r25,Y+2
+ 275 0178 0197      		sbiw r24,1
+ 276 017a 9A83      		std Y+2,r25
+ 277 017c 8983      		std Y+1,r24
+ 278               	.LVL15:
+ 279 017e 8981      		ldd r24,Y+1
+ 280 0180 9A81      		ldd r25,Y+2
+ 281 0182 892B      		or r24,r25
+ 282 0184 01F4      		brne .L13
+ 283               	.LM30:
+ 284 0186 88E6      		ldi r24,lo8(104)
+ 285 0188 6BE6      		ldi r22,lo8(107)
+ 286 018a 43E0      		ldi r20,lo8(3)
+ 287 018c 0E94 0000 		call i2c_writeReg
+ 288               	.LM31:
+ 289 0190 88E6      		ldi r24,lo8(104)
+ 290 0192 6BE1      		ldi r22,lo8(27)
+ 291 0194 48E0      		ldi r20,lo8(8)
+ 292 0196 0E94 0000 		call i2c_writeReg
+ 293               	.LM32:
+ 294 019a 88E6      		ldi r24,lo8(104)
+ 295 019c 6CE1      		ldi r22,lo8(28)
+ 296 019e 40E0      		ldi r20,lo8(0)
+ 297 01a0 0E94 0000 		call i2c_writeReg
+ 298               	.LM33:
+ 299 01a4 88E6      		ldi r24,lo8(104)
+ 300 01a6 6AE1      		ldi r22,lo8(26)
+ 301 01a8 40E0      		ldi r20,lo8(0)
+ 302 01aa 0E94 0000 		call i2c_writeReg
+ 303               	.LM34:
+ 304 01ae 1092 0000 		sts (i2c_errors_count)+1,__zero_reg__
+ 305 01b2 1092 0000 		sts i2c_errors_count,__zero_reg__
+ 306               	/* epilogue start */
+ 307               	.LM35:
+ 308 01b6 0F90      		pop __tmp_reg__
+ 309 01b8 0F90      		pop __tmp_reg__
+ 310 01ba CF91      		pop r28
+ 311 01bc DF91      		pop r29
+ 312 01be 0895      		ret
+ 313               	.LFE2:
+ 315               		.comm rawADC,6,1
+ 316               		.comm accADC,6,1
+ 317               		.comm gyroADC,6,1
+ 366               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 mpu6050.c
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:2      *ABS*:0000003f __SREG__
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:3      *ABS*:0000003e __SP_H__
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:4      *ABS*:0000003d __SP_L__
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:5      *ABS*:00000034 __CCP__
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:18     .text:00000000 mpu6050_readGyro
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:123    .text:000000a2 mpu6050_readAccel
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:228    .text:00000144 mpu6050_test
+C:\Users\user\AppData\Local\Temp/cc82kvT9.s:250    .text:00000158 mpu6050_init
+                            *COM*:00000006 rawADC
+                            *COM*:00000006 accADC
+                            *COM*:00000006 gyroADC
+
+UNDEFINED SYMBOLS
+i2c_start
+i2c_write
+i2c_read
+i2c_readReg
+i2c_writeReg
+i2c_errors_count
+__do_clear_bss
